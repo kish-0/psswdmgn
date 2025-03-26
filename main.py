@@ -2,7 +2,7 @@
 import csv
 import argparse
 
-def main():
+def run():
     #write(data)
     print(find())
 
@@ -36,4 +36,4 @@ def find():
         else:
             return "Service not found !"
         
-main()
+run()
