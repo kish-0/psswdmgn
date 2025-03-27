@@ -1,6 +1,11 @@
 import argparse
 import cryptography
-from script import newpasswd, view
+import os
+import sys
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
+from scripts import newpasswd, view
 
 parser = argparse.ArgumentParser(description="Add/Generate and save passwords securely")
 

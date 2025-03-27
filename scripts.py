@@ -1,6 +1,13 @@
 #Main
 import csv
 from tabulate import tabulate
+import os
+
+#Settig dirs for correct importing, file creation and usage
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(BASE_DIR, 'data.csv')
+
+
 def main():
     newpasswd()
     print(view())
@@ -16,13 +23,13 @@ def newpasswd(s):
 
     d = {'service': service, 'uname': uname, 'psswd': psswd}
 
-    with open('data.csv', newline='') as csvfile: # Check if username and service already exists
+    with open(csv_path, newline='') as csvfile: # Check if username and service already exists
         reader = csv.DictReader(csvfile)
         for line in reader:
             if line['service'] == d['service'] and line['uname'] == d['uname']:
                 raise ValueError(f"password for {line['uname']} already exists !")
 
-    with open('data.csv', 'a', newline='') as datafile: # Write to csv file
+    with open(csv_path, 'a', newline='') as datafile: # Write to csv file
         fields = ['service', 'uname', 'psswd']
         datawriter = csv.DictWriter(datafile, fieldnames=fields)
         datawriter.writerow(d)
@@ -31,7 +38,7 @@ def newpasswd(s):
 def view(s=None):
     service = s
     #print(s)
-    with open('data.csv', newline='') as csvfile:
+    with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
 
         dictlist = [line for line in reader]
