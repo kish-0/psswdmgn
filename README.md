@@ -1,6 +1,7 @@
 # Password Manager
 
 A simple command-line password manager written in Python that allows users to securely store, retrieve, and manage their credentials.
+A lot more changes incoming (I'm still working on this one..contributions are welcome!)
 
 ## Features
 - Securely add new credentials (service, username, password)
@@ -57,7 +58,12 @@ On running the script, you will be asked to enter a security password. Failing t
 ## Notes
 - Ensure you remember your security password.
 - Be cautious as failing to enter the correct security password three times will erase all stored data.
+- Default security password is 'hi'
 
+## Future
+- As of now, you cant delete or update passwords, a feature for which will be added in the future.
+- The security password is just stored in plain sight in the scripts code, which will be changed in the future.
+- Encryption might be added.
 ## License
 This project is licensed under the MIT License.
 
