@@ -6,7 +6,7 @@ import os
 #Settig dirs for correct importing, file creation and usage
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(BASE_DIR, 'data.csv')
-
+password = 'enterpsswdmgn'
 
 def main():
     newpasswd()
@@ -63,7 +63,25 @@ def view(s=None):
                     return(l['psswd'])
             else:
                 return("username not found !")
+
+def enterpassword():
+    for i in range(3):
+        n = input("security password: ")
+        if n == password:
+            return None
         
+        remaining = 2-i
+
+        if remaining == 0:
+            break
+
+        print(f'Wrong password! You have {remaining} more attempts till all data is erased')
+
+    print("Data erased !")
+    with open(csv_path, 'w', newline='') as fle:
+        fle.write("service,uname,psswd")
+    return("Wrong password !")
+
 
 if __name__ == "__main__":        
     main()

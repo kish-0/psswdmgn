@@ -5,7 +5,7 @@ import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
-from scripts import newpasswd, view
+from scripts import newpasswd, view, enterpassword
 
 def main():
     parser = argparse.ArgumentParser(description="Add/Generate and save passwords securely")
@@ -15,11 +15,15 @@ def main():
     action.add_argument("-v", "--view", help="Used to view saved credentials", nargs="?", const="all")
 
     args = vars(parser.parse_args())
-
-    if args['view']:
-        print(view(args["view"]))
-    elif args['newpsswd']:
-        print(newpasswd(args["newpsswd"]))
+    
+    if not enterpassword():
+        try:
+            if args['view']:
+                print(view(args["view"]))
+            elif args['newpsswd']:
+                print(newpasswd(args["newpsswd"]))
+        except IndexError:
+            print("No data !")
 
 
 if __name__ == "__main__":
