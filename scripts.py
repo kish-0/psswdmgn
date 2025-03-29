@@ -2,12 +2,23 @@
 import csv
 from tabulate import tabulate
 import os
-
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+def loadcsv():
+    checkpath = os.path.join(BASE_DIR, 'DATA.csv')
+    if os.path.exists(checkpath):
+        return checkpath
+    else:
+        with open(checkpath, 'w', newline='') as createcsvfile:
+            fields = ['service', 'uname', 'psswd']
+            writer = csv.DictWriter(createcsvfile, fieldnames=fields)
+            writer.writeheader()   
+        return checkpath
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Settig dirs for correct importing, file creation and usage
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(BASE_DIR, 'data.csv')
-password = 'enterpsswdmgn'
-
+csv_path = loadcsv()
+password = 'hi'
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
     newpasswd()
     print(view())
@@ -78,8 +89,7 @@ def enterpassword():
         print(f'Wrong password! You have {remaining} more attempts till all data is erased')
 
     print("Data erased !")
-    with open(csv_path, 'w', newline='') as fle:
-        fle.write("service,uname,psswd")
+    os.remove(csv_path)
     return("Wrong password !")
 
 
