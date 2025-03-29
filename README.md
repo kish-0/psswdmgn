@@ -17,8 +17,8 @@ Ensure you have the following installed:
 ## Installation
 1. Clone the repository:
    ```sh
-   git clone <repo_url>
-   cd <repo_folder>
+   git clone git@github.com:kish-0/psswdmgn.git
+   cd psswdmgn
    ```
 2. Install dependencies:
    ```sh
