@@ -37,20 +37,31 @@ python3 -m psswdmgn -n <service_name>
 ### Adding a New Password
 To add a new password:
 ```sh
-python3 -m psswdmgn --newpsswd <service_name>
+python3 -m psswdmgn [-n/--newpsswd] <service_name>
 ```
-You will be prompted to enter a username and password.
+- Failure to provide `<service_name>` will result in a `ValueError`.
+- You will be prompted to enter a username and password.
 
 ### Viewing Passwords
-To view stored passwords:
+- To view password of specific `<service_name>`:
+   ```sh
+   python3 -m psswdmgn [-v/--view] <service_name>
+   ```
+   - `<service_name>` is optional in this case.
+   - You will be prompted for a username if viewing a specific service.
+
+- To view all stored credentials:
+   ```sh
+   python3 -m psswdmgn [-v/--view]
+   ```
+
+### Deleting Passwords
+To delete a stored password:
 ```sh
-python3 -m psswdmgn --view <service_name>
+python3 -m psswdmgn [-d/--delete] <service_name>
 ```
-To view all stored credentials:
-```sh
-python3 -m psswdmgn --view
-```
-You will be prompted for a username if viewing a specific service.
+- Failure to provide `<service_name>` will result in a `ValueError`.
+- You will be prompted to enter a username and password.
 
 ### Security Password
 On running the script, you will be asked to enter a security password. Failing three attempts will delete all stored data.
@@ -61,7 +72,6 @@ On running the script, you will be asked to enter a security password. Failing t
 - Default security password is 'hi'
 
 ## Future
-- As of now, you cant delete or update passwords, a feature for which will be added in the future.
 - The security password is just stored in plain sight in the scripts code, which will be changed in the future.
 - Encryption might be added.
 ## License

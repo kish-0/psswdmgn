@@ -2,6 +2,7 @@
 import csv
 from tabulate import tabulate
 import os
+import sys
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 def loadcsv():
     checkpath = os.path.join(BASE_DIR, 'DATA.csv')
@@ -32,6 +33,7 @@ def newpasswd(s):
     uname = input("username: ")
     psswd = input("password: ")
 
+    enterpassword()
     d = {'service': service, 'uname': uname, 'psswd': psswd}
 
     with open(csv_path, newline='') as csvfile: # Check if username and service already exists
@@ -46,9 +48,9 @@ def newpasswd(s):
         datawriter.writerow(d)
     return "Password saved !"
 
-def view(s=None):
+def view(s):
     service = s
-    #print(s)
+    enterpassword()
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
 
@@ -78,22 +80,66 @@ def view(s=None):
             else:
                 return("username not found !")
 
+def delete(s):
+    if s == 'noservicegiven':
+        raise ValueError("No service was given") #Checking if service given
+    
+    with open(csv_path, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        dictlist = [line for line in reader]
+        if  dictlist is None: return "No data !" #Checking if any data in DATA.csv
+
+    service = s
+
+    service = service.lower()
+    srvc = [d['service'] for d in dictlist]
+    if service in srvc:
+        service_index = srvc.index(service)
+    else:
+        return "service not found !"             #Check if service exists
+    
+    usname = input("username: ")
+    usnames = [x['uname'] for x in dictlist]
+    if usname in usnames:
+        if not dictlist[service_index]['uname'] == usname:
+            return(f"no {service} username '{usname}' was found !")      #Check if correct username exists
+    else:
+        return("username not found !")          #Check if uname exists
+    
+    while True:
+        inp = input("Are you sure you want to delete? [yes/no]  ")
+        if inp == 'yes' or inp == 'y':
+            break
+        else:
+            sys.exit("Deletion cancelled")
+
+    enterpassword()
+
+    new_dict_list = []
+    for l in dictlist:
+        if not (l['service'] == service and l['uname'] == usname):
+            new_dict_list.append(l)
+    
+    with open(csv_path, 'w', newline='') as datafile: # Write to csv file
+        fields = ['service', 'uname', 'psswd']
+        datawriter = csv.DictWriter(datafile, fieldnames=fields)
+        datawriter.writeheader()
+        for d in new_dict_list:
+            datawriter.writerow(d)
+    return "Password removed !"
+
 def enterpassword():
     for i in range(3):
         n = input("security password: ")
         if n == password:
-            return None
+            break
         
         remaining = 2-i
+        print(f'Wrong password! You have {remaining} more attempt(s) till all data is erased')
+    else:
+        os.remove(csv_path)
+        sys.exit("Data erased !")
 
-        if remaining == 0:
-            break
-
-        print(f'Wrong password! You have {remaining} more attempts till all data is erased')
-
-    print("Data erased !")
-    os.remove(csv_path)
-    return("Wrong password !")
 
 
 if __name__ == "__main__":        
