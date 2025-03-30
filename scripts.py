@@ -58,7 +58,8 @@ def view(s=None):
         if service == 'all':
             headers = dictlist[0].keys()
             dictlist = [x.values() for x in dictlist]
-            return(tabulate(dictlist, headers=headers))
+            print("\n")
+            return(tabulate(dictlist, headers=headers, showindex='always')) + "\n"
 
         else:
             #Check if service exists:
@@ -71,7 +72,9 @@ def view(s=None):
             usname = input("username: ")
             for l in dictlist:
                 if l['service'] == service and l['uname'] == usname:
-                    return(l['psswd'])
+                    print("\n")
+                    return tabulate({'uname': [l['uname']], 'psswd': [l['psswd']]}, headers='keys') + "\n"
+                    
             else:
                 return("username not found !")
 
