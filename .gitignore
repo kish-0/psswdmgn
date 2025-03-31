@@ -2,3 +2,6 @@ test.py
 test_data.csv
 DATA.csv
 notes.txt
+__pycache__
+*.pyc
+*.pyo

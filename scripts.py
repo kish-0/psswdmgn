@@ -31,16 +31,17 @@ def newpasswd(s):
     
     service = s.lower()
     uname = input("username: ")
-    psswd = input("password: ")
 
-    enterpassword()
-    d = {'service': service, 'uname': uname, 'psswd': psswd}
+    d = {'service': service, 'uname': uname, 'psswd': None}
 
     with open(csv_path, newline='') as csvfile: # Check if username and service already exists
         reader = csv.DictReader(csvfile)
         for line in reader:
             if line['service'] == d['service'] and line['uname'] == d['uname']:
                 raise ValueError(f"password for {line['uname']} already exists !")
+    
+    d['psswd'] = input("password: ")
+    enterpassword()
 
     with open(csv_path, 'a', newline='') as datafile: # Write to csv file
         fields = ['service', 'uname', 'psswd']
